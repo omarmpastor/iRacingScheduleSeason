@@ -1,0 +1,77 @@
+﻿<Page x:Class="iRacingSchedule.Views.SelectSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:iRacingSchedule.Views"
+      xmlns:converters="clr-namespace:iRacingSchedule.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SelectSeries" Initialized="Page_Initialized">
+
+    <Page.Resources>
+        <converters:ForegroundBoolean x:Key="ForegroundBoolean"/>
+        <converters:BooleanToVisibility x:Key="BooleanToVisibility"/>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True"/>
+        </Style>
+        <HierarchicalDataTemplate x:Key='SeriesTemplateSelectSeries'>
+            <CheckBox x:Name="checkSerie" IsChecked='{Binding Path=Bookmarks, Mode=TwoWay}'
+                      Checked="checkSerie_Checked" Unchecked="checkSerie_Checked">
+                <TextBlock Text='{Binding Path=Name}' />
+            </CheckBox>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key='GroupSeriesTemplateSelectSeries'
+                    ItemsSource='{Binding Path=Series}' 
+                    ItemTemplate='{StaticResource SeriesTemplateSelectSeries}'>
+            <CheckBox IsChecked='{Binding Path=BookmarksSeries, Mode=TwoWay}'
+                      Checked="checkSerie_Checked" Unchecked="checkSerie_Checked">
+                <TextBlock Text='{Binding Path=Name}' />
+            </CheckBox>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key='DisciplinesTemplateSelectSeries'
+                    ItemsSource='{Binding Path=SeriesByLicense}' 
+                    ItemTemplate='{StaticResource GroupSeriesTemplateSelectSeries}'>
+            <HierarchicalDataTemplate.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="False"/>
+                </Style>
+            </HierarchicalDataTemplate.ItemContainerStyle>
+            <CheckBox IsChecked='{Binding Path=BookmarksSeries, Mode=TwoWay}'
+                      Checked="checkSerie_Checked" Unchecked="checkSerie_Checked">
+                <TextBlock Text='{Binding Path=Name}' />
+            </CheckBox>
+        </HierarchicalDataTemplate>
+    </Page.Resources>
+
+    <StackPanel x:Name="StackPanelMainPage" Margin="10">
+        <TextBlock Text="No hay conexión a Internet" HorizontalAlignment="Center" Foreground="Red" 
+                   Visibility="{Binding CheckConnection, Converter={StaticResource BooleanToVisibility}}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btDownloadCars" Content="Descargar Coches y circuitos desde iracing.com" 
+                    Margin="10 5" Padding="5 0"  Height="25" Click="btDownloadIracingContent_Click" Background="White"
+                    Foreground="{Binding IsIRacingContentDownload, Converter={StaticResource ForegroundBoolean}}"
+                    IsEnabled="{Binding CheckConnection, IsAsync=True}"/>
+        </StackPanel>
+        <TextBlock Text="Tienes que descargar el contenido desde el botón de arriba!!" 
+                   HorizontalAlignment="Center" Foreground="Red" FontWeight="Bold"
+                   Visibility="{Binding IsIRacingContentDownload, Converter={StaticResource BooleanToVisibility}}"/>
+        <Label FontWeight="Bold">Calendario</Label>
+        <Border Margin="5 10">
+        <TreeView Name='treeview_disciplines'  Height="500"
+                  ItemsSource='{Binding Schedule.Disciplines}' 
+                  ItemTemplate='{StaticResource DisciplinesTemplateSelectSeries}'/>
+        </Border>
+        <!-- E71D-->
+        <Button x:Name="btnSelectSeries" Width="150" Height="30" Margin="5 0" HorizontalAlignment="Right" 
+                IsEnabled="{Binding CheckedSerie}"
+                Click="btnSelectSeries_Click">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Label Padding="2 2 5 2" FontFamily="Segoe MDL2 Assets" Content="&#xE9D5;"/>
+                <Label Padding="0" Content="Seleccionar series"/>
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</Page>

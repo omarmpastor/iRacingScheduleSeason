@@ -1,0 +1,61 @@
+﻿<Application x:Class="iRacingSchedule.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:iRacingSchedule"
+             xmlns:converters="clr-namespace:iRacingSchedule.Converters"
+             StartupUri="Views\MainWindow.xaml">
+    <Application.Resources>
+        <converters:ForegroundIsStringEmpty x:Key="ForegroundStringEmpty"/>
+        <converters:ForegroundIsListStringEmpty x:Key="ForegroundListStringEmpty"/>
+        <converters:ForegroundBoolean x:Key="ForegroundBoolean"/>
+        <Style x:Key="StringEmpty" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding}" Value="">
+                    <Setter Property="Foreground" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <!-- Fix Series -->
+        <HierarchicalDataTemplate x:Key='WeeksTemplateFixSeries'>
+            <TextBlock Foreground="{Binding Path=Track, Converter={StaticResource ForegroundStringEmpty}}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="Week {0:00} - {1}">
+                        <Binding Path="Number"/>
+                        <Binding Path="TrackLoad"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key='SeriesTemplateFixSeries'
+                    ItemsSource='{Binding Path=Weeks}'
+                    ItemTemplate='{StaticResource WeeksTemplateFixSeries}'>
+            <TextBlock Text='{Binding Path=Name}' 
+                       Foreground="{Binding Path=AreAllTheCircuitsAndCarsInTheSeriesFilled, Converter={StaticResource ForegroundBoolean}}" />
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key='GroupSeriesTemplateFixSeries'
+                    ItemsSource='{Binding Path=Series}' 
+                    ItemTemplate='{StaticResource SeriesTemplateFixSeries}'>
+            <HierarchicalDataTemplate.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="False"/>
+                </Style>
+            </HierarchicalDataTemplate.ItemContainerStyle>
+            <TextBlock Text='{Binding Path=Name}' 
+                       Foreground="{Binding Path=AreAllTheCircuitsAndCarsInTheSeriesFilled, Converter={StaticResource ForegroundBoolean}}" />
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key='DisciplinesTemplateFixSeries'
+                    ItemsSource='{Binding Path=SeriesByLicense}' 
+                    ItemTemplate='{StaticResource GroupSeriesTemplateFixSeries}'>
+            <TextBlock Text='{Binding Path=Name}' 
+                       Foreground="{Binding Path=AreAllTheCircuitsAndCarsInTheSeriesFilled, Converter={StaticResource ForegroundBoolean}}" />
+        </HierarchicalDataTemplate>
+        <!-- End Fix Series -->
+    </Application.Resources>
+</Application>

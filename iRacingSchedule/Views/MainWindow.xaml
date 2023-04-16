@@ -1,0 +1,32 @@
+﻿<Window x:Class="iRacingSchedule.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:iRacingSchedule.Views"
+        
+        xmlns:converters="clr-namespace:iRacingSchedule.Converters"
+        mc:Ignorable="d"
+        Title="Configurar calendario iRacing" Height="700" Width="850" WindowState="Maximized">
+    <Window.Resources>
+        <converters:BooleanToVisibility x:Key="BooleanToVisibility"/>
+    </Window.Resources>
+
+    <StackPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Archivo">
+                <MenuItem x:Name="MenuOpenFile" Header="_Abrir" Click="MenuOpenFile_Click"/>
+                <Separator />
+                <MenuItem Header="_Exportar" Click="MenuExportar_Click"/>
+                <Separator /> 
+                <MenuItem Header="_Salir" Click="MenuExit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Configuración" Visibility="{Binding IsFixSeriesPageActive, Converter={StaticResource BooleanToVisibility}}">
+                <MenuItem Header="_Proxy" Click="MenuConfigProxy_Click"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel>
+            <Frame x:Name="frameMainWindow" Source="SelectSeries.xaml" NavigationUIVisibility="Hidden" Navigated="frameMainWindow_Navigated"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

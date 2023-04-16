@@ -1,0 +1,107 @@
+﻿<Page x:Class="iRacingSchedule.Views.FixSeries"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:iRacingSchedule.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="FixSeries" Loaded="Page_Loaded">
+    <Page.Resources>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnBackPage" Click="navigateBackButton_Click"
+                        FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" FontSize="20" Width="30" Height="30" Margin="10 10 20 10">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="30"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Label FontWeight="Bold" FontSize="16" Content="Calendario seleccionado" VerticalAlignment="Center" />
+            </StackPanel>
+            <TreeView Name='treeview_disciplines'  Height="500"
+                      ItemsSource='{Binding Schedule.Disciplines}' 
+                      ItemTemplate='{StaticResource DisciplinesTemplateFixSeries}'
+                      SelectedItemChanged="treeview_disciplines_SelectedItemChanged"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="10 22 10 10">
+            <Label FontWeight="Bold" FontSize="12" Content="Confirmar contenido" VerticalAlignment="Center" />
+            <Border Background="LightSteelBlue" BorderBrush="Gainsboro" BorderThickness="1">
+                <StackPanel>
+                    <Label x:Name="lbLoad" Content="" FontSize="12" FontWeight="Bold"/>
+                    <ListView Name="listboxLoaded" Grid.Column="1" ItemsSource="{Binding}" Height="200">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Focusable" Value="false"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
+            <Border Background="LightSteelBlue" BorderBrush="Gainsboro" BorderThickness="1" Margin="0 20 0 0">
+                <StackPanel>
+                    <Label x:Name="lbSelect" Content="" FontSize="12" FontWeight="Bold"/>
+                    <ListView Name="listboxSelect" Grid.Column="1" ItemsSource="{Binding}"  Height="200" SelectionChanged="listboxSelect_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button x:Name="btnConfirm" Click="btnConfirm_Click" Width="100" Height="25" 
+                            HorizontalAlignment="Right" IsEnabled="{Binding SelectItemInListView}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Label Padding="0" Content="Confirmar"/>
+                            <Label Padding="2" FontFamily="Segoe MDL2 Assets" Content="&#xE73E;"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Border Background="LightSteelBlue" BorderBrush="Gainsboro" BorderThickness="0.2" Margin="0 5" Padding="3 5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <CheckBox Content="Ver calendario sin confirmar circuitos y coches" IsChecked="{Binding ForceExport}" VerticalAlignment="Center" Margin="15 0"/>
+                    <Button x:Name="btnViewSchedule" Width="100" Padding="3 5" Click="btnViewSchedule_Click" 
+                        VerticalAlignment="Center" IsEnabled="{Binding AllDisciplinesFix}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Label Padding="2 2 5 2" FontFamily="Segoe MDL2 Assets" Content="&#xE787;"/>
+                            <Label Padding="0" Content="Calendario"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="0.2" Margin="0 5" Padding="3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Confirmar todos los coches y circuitos que solo tengan una opción" Margin="0 3"/>
+                    <Button x:Name="btnConfirmAll" Margin="10 0" Padding="3"
+                            Grid.Column="0" Grid.Row="1" Click="btnConfirmAll_Click">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Label Padding="0" Content="Confirmar"/>
+                            <Label Padding="2" FontFamily="Segoe MDL2 Assets" Content="&#xE73E;"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>
