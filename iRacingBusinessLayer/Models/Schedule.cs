@@ -1,5 +1,6 @@
 ﻿using iRacingPDFLoader.Entity;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace iRacingBusinessLayer.Models
@@ -79,6 +80,28 @@ namespace iRacingBusinessLayer.Models
             schedule.KinDisciplines();
 
             return schedule;
+        }
+
+        public void SettracksRepeatInWeeks(List<IRacingContent> tracks)
+        {
+            IEnumerable<Week> allWeeks = this.Disciplines.SelectMany(d => d.SeriesByLicense.SelectMany(gs => gs.Series.SelectMany(s => s.Weeks)));
+
+            Dictionary<string, int> tracksRepeat = new Dictionary<string, int>();
+
+            foreach (IRacingContent track in tracks)
+            {
+                int rep = allWeeks.Count(w => w.Track == track.Name) - 1;
+                if(rep < 0) { rep = 0; }
+                tracksRepeat.Add(track.Name, rep);
+            }
+
+            foreach (Week week in allWeeks)
+            {
+                if(week.Track != null && week.Track.Length > 0)
+                {
+                    week.SetTrackRepeatInWeeks(tracksRepeat[week.Track]);
+                }
+            }
         }
     }
 }

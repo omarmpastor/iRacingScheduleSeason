@@ -4,6 +4,19 @@ namespace iRacingBusinessLayer.Helpers
 {
     public class SerieHelper
     {
+        public static Dictionary<IRacingContent, int> TracksRepeat(IEnumerable<Week> allWeeks, List<IRacingContent> tracks)
+        {
+            Dictionary<IRacingContent, int> tracksRepeat = new Dictionary<IRacingContent, int>();
+
+            foreach (IRacingContent track in tracks)
+            {
+                int rep = allWeeks.Count(w => w.Track.Equals(track));
+                tracksRepeat.Add(track, rep);
+            }
+
+            return tracksRepeat;
+        }
+
         /*
         public static Tuple<List<string>, List<DateTime>, Week[,]> SeriesToWeeksTable(List<Serie> series)
         {

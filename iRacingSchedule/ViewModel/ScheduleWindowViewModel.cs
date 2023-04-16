@@ -73,9 +73,13 @@ namespace iRacingSchedule.ViewModel
 
         public ScheduleWindowViewModel() 
         {
-            _series = DependencyService.Get<DataLoadWriteService>()
-                .Schedule.GetCheckedSchedule().GetAllSeries();
             _tracks = DependencyService.Get<DataLoadWriteService>().Tracks;
+
+            var schedule = DependencyService.Get<DataLoadWriteService>()
+                .Schedule.GetCheckedSchedule();
+
+            schedule.SettracksRepeatInWeeks(_tracks);
+            _series = schedule.GetAllSeries();
             RaisePropertyChanged("Tracks");
         }
 

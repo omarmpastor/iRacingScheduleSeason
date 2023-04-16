@@ -20,6 +20,12 @@ namespace iRacingBusinessLayer.Models
             set { _track = value; RaisePropertyChanged(); }
         }
 
+        private int _trackRepeatInWeeks;
+
+        public int TrackRepeatInWeeks
+        {
+            get { return _trackRepeatInWeeks; }
+        }
 
         private string _trackLoad;
 
@@ -59,6 +65,11 @@ namespace iRacingBusinessLayer.Models
             info.AddValue("Duration", Duration);
             info.AddValue("_trackLoad", TrackLoad);
             info.AddValue("PossibleTracks", PossibleTracks);
+        }
+
+        public void SetTrackRepeatInWeeks(int repeated)
+        {
+            _trackRepeatInWeeks = repeated;
         }
     }
 }
