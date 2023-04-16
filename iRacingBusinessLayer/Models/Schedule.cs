@@ -1,6 +1,5 @@
 ﻿using iRacingPDFLoader.Entity;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace iRacingBusinessLayer.Models

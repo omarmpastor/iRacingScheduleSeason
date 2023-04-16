@@ -76,6 +76,7 @@ namespace iRacingBusinessLayer.Helpers
                 "WeekNumber",
                 "WeekDate",
                 "Track",
+                "TrackRepeatInWeeks",
                 "TrackLoad",
                 "Duration"
             };
@@ -99,6 +100,7 @@ namespace iRacingBusinessLayer.Helpers
                     gridTable.WriteField("WeekNumber", week.Number.ToString());
                     gridTable.WriteField("WeekDate", week.Date.ToString("dd'-'MM'-'yyyy"));
                     gridTable.WriteField("Track", week.Track);
+                    gridTable.WriteField("TrackRepeatInWeeks", week.TrackRepeatInWeeks.ToString());
                     gridTable.WriteField("TrackLoad", week.TrackLoad);
                     gridTable.WriteField("Duration", week.Duration);
 
