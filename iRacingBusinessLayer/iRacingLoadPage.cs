@@ -125,6 +125,10 @@ namespace iRacingBusinessLayer
                 httpClient = new HttpClient(handler: httpClientHandler, disposeHandler: true);
             }
 
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53");
+            httpClient.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml");
+            httpClient.DefaultRequestHeaders.Add("Accept-Charset", "ISO-8859-1");
+
 
             using (HttpResponseMessage response = httpClient.GetAsync(url).Result)
             {
